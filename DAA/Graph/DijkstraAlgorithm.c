@@ -37,7 +37,7 @@ struct Graph *adjMatrix()
     {
         for (int j = 0; j < g->v; j++)
         {
-            g->adj[i][j] = 0;
+            g->adj[i][j] =  INT_MAX;
         }
     }
 
@@ -65,6 +65,45 @@ void printGraph(struct Graph *g)
     }
 }
 
+void dijkstra(struct Graph * g, int source) {
+    int *visited = (int *)calloc(g->v, sizeof(int));
+    int distance[g->v];
+    int count = 0;
+    for (int i = 0; i < g->v; i++)
+    {
+        distance[i] = INT_MAX;
+    }
+    //visited[source] = 1;
+    distance[source] = 0;
+    while (count < g->v)
+    {
+        int min = INT_MAX;
+        int x = 0;
+        for (int i = 0; i < g->v; i++)
+        {
+            if (distance[i] < min && !visited[i])
+            {
+                min = distance[i];
+                x = i;
+            }
+        }
+        visited[x] = 1;
+        for (int i = 0; i < g->v; i++)
+        {
+            if ((distance[x] + g->adj[x][i] ) < distance[i]&&!visited[i])
+            {
+                distance[i] = distance[x] + g->adj[x][i];
+            }
+        }
+        count++;
+    }
+    printf("Shortest distance from %d is ", source);
+    for (int i = 0; i < g->v; i++)
+    {
+        printf("%d ", distance[i]);
+    }   
+}
+
 
 int main()
 {
@@ -72,7 +111,7 @@ int main()
     if (g != NULL)
     {
         printGraph(g);
-        primsMST(g);
+        dijkstra(g, 0);
         // Free allocated memory
         for (int i = 0; i < g->v; i++)
         {

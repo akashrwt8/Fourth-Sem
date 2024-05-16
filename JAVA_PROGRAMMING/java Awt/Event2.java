@@ -37,7 +37,7 @@ public class Event2 extends Frame implements ActionListener {
         setTitle("ADDITION AND SUBTRACTION");
         setSize(400, 400);
         setVisible(true);
-        
+        setLayout(new FlowLayout());
     }
 
     public static void main(String args[]) {
